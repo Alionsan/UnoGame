@@ -6,6 +6,7 @@ public class Juego {
         // Crear el pozo de cartas
         Pozo pozo = new Pozo();
 
+        //by Kevyn Medina
         // Crear la carta inicial en el centro
         UNO cartaCentro = pozo.sacarCarta();
         System.out.println("Carta en el centro para comenzar el juego: " + cartaCentro);
