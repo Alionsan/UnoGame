@@ -1,10 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class Jugador {
+class Jugador {
     private final String nombre;
-    private final List<UNO> mano;  // Cartas en la mano del jugador
+    private final List<UNO> mano;
 
     // Constructor
     public Jugador(String nombre, Pozo pozo) {
@@ -16,48 +15,37 @@ public class Jugador {
     // Método para repartir 7 cartas al azar desde el pozo
     private void repartirCartas(Pozo pozo) {
         for (int i = 0; i < 7; i++) {
-            UNO carta = pozo.sacarCarta();  // Sacamos cartas del pozo
+            UNO carta = pozo.sacarCarta();
             if (carta != null) {
                 mano.add(carta);
             }
         }
     }
 
-    // Método para mostrar las cartas del jugador
-    public void mostrarCartas() {
-        System.out.println("Cartas de " + nombre + ":");
-        for (int i = 0; i < mano.size(); i++) {
-            System.out.println((i + 1) + ". " + mano.get(i));  // Numerar las cartas
+    public UNO jugarAutomatico(UNO cartaDelPozo) {
+        for (UNO carta : mano) {
+            // Verificar si se puede jugar la carta
+            if (puedeJugar(carta, cartaDelPozo)) {
+                mano.remove(carta);
+                return carta; // Juega la carta
+            }
         }
-        System.out.println();
+        return null; // No puede jugar ninguna carta
     }
 
-    // Método para jugar una carta
-    public UNO jugarCarta(UNO carta) {
-        if (mano.remove(carta)) {  // Si la carta está en la mano, la eliminamos
-            return carta;
-        } else {
-            System.out.println("No tienes esa carta.");
-            return null;
-        }
+    public void agregarCarta(UNO carta) {
+        mano.add(carta); // Agregar carta a la mano
     }
 
-    // Método para seleccionar carta para jugar
-    public UNO seleccionarCarta() {
-        Scanner scanner = new Scanner(System.in);
-        mostrarCartas();
-        System.out.print("Selecciona el número de la carta que deseas jugar (0 para cancelar): ");
-        int seleccion = scanner.nextInt();
-
-        if (seleccion > 0 && seleccion <= mano.size()) {
-            return mano.get(seleccion - 1);  // Devolvemos la carta seleccionada
-        } else {
-            System.out.println("Selección no válida. Turno cancelado.");
-            return null;
-        }
+    public List<UNO> getMano() {
+        return mano;
     }
 
     public String getNombre() {
         return nombre;
+    }
+
+    private boolean puedeJugar(UNO carta, UNO cartaDelPozo) {
+        return carta.color.equals(cartaDelPozo.color) || carta.numero == cartaDelPozo.numero;
     }
 }
