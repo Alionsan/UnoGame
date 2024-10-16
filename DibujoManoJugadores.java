@@ -11,7 +11,7 @@ public class DibujoManoJugadores extends JFrame {
     private UNO cartaDelPozo;
     private JLabel turnoLabel;
     private boolean turnoJugador1;
-
+    private int banderaTerminoJuego = 0;
     public DibujoManoJugadores(Jugador jugador1, Jugador jugador2, Pozo pozo) {
         // Configurar la ventana
         setTitle("Cartas de UNO");
