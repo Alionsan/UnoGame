@@ -1,5 +1,5 @@
+import static java.lang.System.exit;
 import javax.swing.*;
-
 public class DibujoManoJugadores extends JFrame {
     private JPanel panelPrincipal;
     private PanelCartas panelCartasJugador1;
@@ -11,10 +11,11 @@ public class DibujoManoJugadores extends JFrame {
     private UNO cartaDelPozo;
     private JLabel turnoLabel;
     private boolean turnoJugador1;
+
     public DibujoManoJugadores(Jugador jugador1, Jugador jugador2, Pozo pozo) {
         // Configurar la ventana
         setTitle("Cartas de UNO");
-        setSize(1000, 800); // Tamaño de la ventana
+        setSize(800, 800); // Tamaño de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         this.jugador1 = jugador1;
@@ -72,14 +73,10 @@ public class DibujoManoJugadores extends JFrame {
             }
     
             // Verificar si el jugador actual ha ganado
-            
-                if (jugadorActual.getMano().isEmpty()) {
-
-                    mostrarGanador(jugadorActual.getNombre());
-                    banderaTerminoJuego=1;
-                    return; // Termina el juego
-                }
-            
+            if (jugadorActual.getMano().isEmpty()) {
+                mostrarGanador(jugadorActual.getNombre());
+                return; // Termina el juego
+            }
     
             // Lógica para cartas especiales +2 y +4
             if (cartaJugada.esMasDos()) { // Si es un +2
@@ -90,10 +87,10 @@ public class DibujoManoJugadores extends JFrame {
                     }
                 }
                 // Actualizar la mano del siguiente jugador
-                if (turnoJugador1) {
-                    panelCartasJugador2.actualizarCartas(jugador2.getMano());
-                } else {
+                if (!turnoJugador1) {
                     panelCartasJugador1.actualizarCartas(jugador1.getMano());
+                } else {
+                    panelCartasJugador2.actualizarCartas(jugador2.getMano());
                 }
             } else if (cartaJugada.esMasCuatro()) { // Si es un +4
                 for (int i = 0; i < 4; i++) {
@@ -103,19 +100,19 @@ public class DibujoManoJugadores extends JFrame {
                     }
                 }
                 // Actualizar la mano del siguiente jugador
-                if (turnoJugador1) {
-                    panelCartasJugador2.actualizarCartas(jugador2.getMano());
-                } else {
+                if (!turnoJugador1) {
                     panelCartasJugador1.actualizarCartas(jugador1.getMano());
+                } else {
+                    panelCartasJugador2.actualizarCartas(jugador2.getMano());
                 }
             }
     
-            // Cambiar turno si no fue una carta especial +2 o +4
+            // Cambiar turno después de que se actualice la mano del siguiente jugador
             turnoJugador1 = !turnoJugador1;
     
             // Actualizar el texto de la etiqueta del turno
             turnoLabel.setText("Turno: " + (turnoJugador1 ? jugador1.getNombre() : jugador2.getNombre()));
-    
+            
         } else {
             // Si el jugador no puede jugar, toma una carta del pozo
             UNO nuevaCarta = pozo.sacarCarta();
@@ -131,14 +128,17 @@ public class DibujoManoJugadores extends JFrame {
         }
     }
     
-private void mostrarGanador(String nombre) {
-    JOptionPane.showMessageDialog(this, "¡Felicidades " + nombre + "! Has ganado el juego.", "Ganador", JOptionPane.INFORMATION_MESSAGE);
     
-    // Utiliza lambda para cerrar la ventana al finalizar el diálogo
-    SwingUtilities.invokeLater(() -> dispose()); // Cerrar la ventana usando una expresión lambda
-}
+    private void mostrarGanador(String nombre) {
+        JOptionPane.showMessageDialog(this, "¡Felicidades " + nombre + "! Has ganado el juego.", "Ganador", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Utiliza lambda para cerrar la ventana al finalizar el diálogo
 
-
+        SwingUtilities.invokeLater(() -> dispose()); // Cerrar la ventana usando una expresión lambda
+        exit(1);
+    }
+    
+    
     public void iniciarJuego() {
         while (true) {
             jugarTurno(); // Jugar el turno automáticamente
@@ -162,6 +162,5 @@ private void mostrarGanador(String nombre) {
         
         // Iniciar el juego
         ventana.iniciarJuego();
-        exit(1);
     }
 }
