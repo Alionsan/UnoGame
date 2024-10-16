@@ -11,7 +11,6 @@ public class DibujoManoJugadores extends JFrame {
     private UNO cartaDelPozo;
     private JLabel turnoLabel;
     private boolean turnoJugador1;
-    private int banderaTerminoJuego = 0;
     public DibujoManoJugadores(Jugador jugador1, Jugador jugador2, Pozo pozo) {
         // Configurar la ventana
         setTitle("Cartas de UNO");
@@ -73,14 +72,14 @@ public class DibujoManoJugadores extends JFrame {
             }
     
             // Verificar si el jugador actual ha ganado
-            if(banderaTerminoJuego==0){
+            
                 if (jugadorActual.getMano().isEmpty()) {
 
                     mostrarGanador(jugadorActual.getNombre());
                     banderaTerminoJuego=1;
                     return; // Termina el juego
                 }
-            }
+            
     
             // Lógica para cartas especiales +2 y +4
             if (cartaJugada.esMasDos()) { // Si es un +2
@@ -161,5 +160,6 @@ public class DibujoManoJugadores extends JFrame {
         
         // Iniciar el juego
         ventana.iniciarJuego();
+        exit(1);
     }
 }
