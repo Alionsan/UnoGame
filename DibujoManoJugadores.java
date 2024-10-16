@@ -131,11 +131,13 @@ public class DibujoManoJugadores extends JFrame {
         }
     }
     
-    private void mostrarGanador(String nombre) {
-        JOptionPane.showMessageDialog(this, "¡Felicidades " + nombre + "! Has ganado el juego.", "Ganador", JOptionPane.INFORMATION_MESSAGE);
-        // Opcional: cerrar la ventana o reiniciar el juego
-        dispose(); // Cerrar la ventana
-    }
+private void mostrarGanador(String nombre) {
+    JOptionPane.showMessageDialog(this, "¡Felicidades " + nombre + "! Has ganado el juego.", "Ganador", JOptionPane.INFORMATION_MESSAGE);
+    
+    // Utiliza lambda para cerrar la ventana al finalizar el diálogo
+    SwingUtilities.invokeLater(() -> dispose()); // Cerrar la ventana usando una expresión lambda
+}
+
 
     public void iniciarJuego() {
         while (true) {
