@@ -73,9 +73,13 @@ public class DibujoManoJugadores extends JFrame {
             }
     
             // Verificar si el jugador actual ha ganado
-            if (jugadorActual.getMano().isEmpty()) {
-                mostrarGanador(jugadorActual.getNombre());
-                return; // Termina el juego
+            if(banderaTerminoJuego==0){
+                if (jugadorActual.getMano().isEmpty()) {
+
+                    mostrarGanador(jugadorActual.getNombre());
+                    banderaTerminoJuego=1;
+                    return; // Termina el juego
+                }
             }
     
             // Lógica para cartas especiales +2 y +4
