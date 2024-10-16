@@ -1,32 +1,50 @@
 public class UNO {
-    private final String color;  // Color de la carta
-    private final int numero;    // -1 para cartas especiales (comodines)
-    private final boolean esComodin; // Indica si es un comodín
-    private final String tipoComodin; // Tipo de comodín
+    public String color;
+    public int numero;  // Usamos números para cartas numéricas (0-9) y valores especiales para +2, +4, etc.
+    public String tipoCarta;  // Puede ser "normal", "+2", "+4", "comodín", "reversa", "salto"
 
-    // Constructor
-    public UNO(String color, int numero, boolean esComodin, String tipoComodin) {
+    // Constructor para cartas numéricas
+    public UNO(String color, int numero) {
         this.color = color;
         this.numero = numero;
-        this.esComodin = esComodin;
-        this.tipoComodin = tipoComodin;
+        this.tipoCarta = "normal";  // Cartas numéricas se consideran normales
     }
 
-    // Método para representar la carta como una cadena
+    // Constructor para cartas especiales
+    public UNO(String tipoCarta) {
+        this.color = "ninguno";  // Los comodines no tienen color inicial
+        this.numero = 0;  // Las cartas especiales no tienen un número
+        this.tipoCarta = tipoCarta;
+    }
+
+    // Métodos para identificar tipos de carta
+    public boolean esMasDos() {
+        return "+2".equals(tipoCarta);
+    }
+
+    public boolean esMasCuatro() {
+        return "+4".equals(tipoCarta);
+    }
+
+    public boolean esComodin() {
+        return "comodín".equals(tipoCarta);
+    }
+
+    // Para otras cartas especiales
+    public boolean esReversa() {
+        return "reversa".equals(tipoCarta);
+    }
+
+    public boolean esSalto() {
+        return "salto".equals(tipoCarta);
+    }
+
     @Override
     public String toString() {
-        if (esComodin) {
-            return "Carta Comodín: " + tipoComodin;
-        } else if (numero == -1) {
-            return "Carta Especial " + tipoComodin + " de color " + color;
+        if ("comodín".equals(tipoCarta) || "normal".equals(tipoCarta)) {
+            return tipoCarta.equals("normal") ? color + " " + numero : "Comodín";
         } else {
-            return "Carta " + color + " " + numero;
+            return tipoCarta;  // Para +2, +4, etc.
         }
     }
-
-    // Método para saber si la carta es un comodín
-    public boolean esComodin() {
-        return esComodin;
-    }
 }
-
